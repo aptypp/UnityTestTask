@@ -24,7 +24,6 @@ namespace TestTask
                 return;
             }
 
-
             List<Enemie> enemies = SceneManager.Instance.Enemies;
             Enemie closestEnemie = null;
 
