@@ -1,71 +1,69 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
-public class SceneManager : MonoBehaviour
+namespace TeskTask
 {
-    public static SceneManager Instance;
-
-    public Player Player;
-    public List<Enemie> Enemies;
-    public GameObject Lose;
-    public GameObject Win;
-
-    private int currWave = 0;
-    [SerializeField] private LevelConfig Config;
-
-    private void Awake()
+    public class SceneManager : MonoBehaviour
     {
-        Instance = this;
-    }
+        public static SceneManager Instance;
 
-    private void Start()
-    {
-        SpawnWave();
-    }
+        public Player Player;
+        public List<Enemie> Enemies;
+        public GameObject Lose;
+        public GameObject Win;
 
-    public void AddEnemie(Enemie enemie)
-    {
-        Enemies.Add(enemie);
-    }
+        [SerializeField]
+        private LevelConfig Config;
 
-    public void RemoveEnemie(Enemie enemie)
-    {
-        Enemies.Remove(enemie);
-        if(Enemies.Count == 0)
+        private int currWave;
+
+        private void Awake()
+        {
+            Instance = this;
+        }
+
+        public void Reset()
+        {
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+        }
+
+        private void Start()
         {
             SpawnWave();
         }
-    }
 
-    public void GameOver()
-    {
-        Lose.SetActive(true);
-    }
-
-    private void SpawnWave()
-    {
-        if (currWave >= Config.Waves.Length)
+        public void AddEnemie(Enemie enemie)
         {
-            Win.SetActive(true);
-            return;
+            Enemies.Add(enemie);
         }
 
-        var wave = Config.Waves[currWave];
-        foreach (var character in wave.Characters)
+        public void RemoveEnemie(Enemie enemie)
         {
-            Vector3 pos = new Vector3(Random.Range(-10, 10), 0, Random.Range(-10, 10));
-            Instantiate(character, pos, Quaternion.identity);
+            Enemies.Remove(enemie);
+            if (Enemies.Count == 0) SpawnWave();
         }
-        currWave++;
 
+        public void GameOver()
+        {
+            Lose.SetActive(true);
+        }
+
+        private void SpawnWave()
+        {
+            if (currWave >= Config.Waves.Length)
+            {
+                Win.SetActive(true);
+                return;
+            }
+
+            Wave wave = Config.Waves[currWave];
+            foreach (GameObject character in wave.Characters)
+            {
+                Vector3 pos = new(Random.Range(-10, 10), 0, Random.Range(-10, 10));
+                Instantiate(character, pos, Quaternion.identity);
+            }
+
+            currWave++;
+        }
     }
-
-    public void Reset()
-    {
-        UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-    }
-    
-
 }
