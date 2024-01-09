@@ -1,7 +1,7 @@
 using System;
 using UnityEngine;
 
-namespace TeskTask
+namespace TestTask
 {
     [CreateAssetMenu(fileName = "Wave", menuName = "Data/Waves"), Serializable]
     public class Wave : ScriptableObject

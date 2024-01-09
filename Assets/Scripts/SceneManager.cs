@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace TeskTask
+namespace TestTask
 {
     public class SceneManager : MonoBehaviour
     {

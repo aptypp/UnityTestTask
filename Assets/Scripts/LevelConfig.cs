@@ -1,6 +1,6 @@
 using UnityEngine;
 
-namespace TeskTask
+namespace TestTask
 {
     [CreateAssetMenu(fileName = "LevelConfig", menuName = "Data/BattleCampInfo")]
     public class LevelConfig : ScriptableObject

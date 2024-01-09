@@ -1,7 +1,7 @@
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace TeskTask
+namespace TestTask
 {
     public class Enemie : MonoBehaviour
     {
