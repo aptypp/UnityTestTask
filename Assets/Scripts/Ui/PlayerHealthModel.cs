@@ -1,5 +1,6 @@
 ﻿using TestTask.Units;
 using TMPro;
+using UnityEngine;
 
 namespace TestTask.Ui
 {
@@ -18,6 +19,7 @@ namespace TestTask.Ui
         }
 
         private void SetHealth(int currentHealth) =>
-            _playerHealthText.text = $"Health {currentHealth}/{_playerStartHealth}";
+            _playerHealthText.text =
+                $"Health {Mathf.Clamp(currentHealth, 0, _playerStartHealth)}/{_playerStartHealth}";
     }
 }

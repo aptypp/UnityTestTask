@@ -12,8 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fbee9837c46b60d40ab32243ba13bfa5, type: 3}
   m_Name: Wave5
   m_EditorClassIdentifier: Assembly-CSharp::Wave
-  Characters:
-  - {fileID: 977492468783751975, guid: 4c34fad82d8582f40a00c43d3128284a, type: 3}
-  - {fileID: 977492468783751975, guid: 4c34fad82d8582f40a00c43d3128284a, type: 3}
-  - {fileID: 977492468783751975, guid: 4c34fad82d8582f40a00c43d3128284a, type: 3}
-  - {fileID: 977492468783751975, guid: 4c34fad82d8582f40a00c43d3128284a, type: 3}
+  <enemies>k__BackingField:
+  - {fileID: 7277243846991302540, guid: 9935734949af24a4da88a101473e1ab3, type: 3}
+  - {fileID: 7277243846991302540, guid: 9935734949af24a4da88a101473e1ab3, type: 3}

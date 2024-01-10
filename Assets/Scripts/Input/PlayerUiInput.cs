@@ -12,7 +12,7 @@ namespace TestTask.Input
         [field: SerializeField]
         public SuperAttackButton superAttackButton { get; private set; }
         
-        public void OnFoundClosestEnemy(Enemie enemy)
+        public void OnFoundClosestEnemy(Enemy enemy)
         {
             if (superAttackButton.currentState == SuperAttackButton.State.Cooldown) return;
 

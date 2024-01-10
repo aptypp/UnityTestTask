@@ -1404,7 +1404,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Player: {fileID: 794088351}
-  Enemies: []
   Lose: {fileID: 2065721504}
   Win: {fileID: 527944048}
   _hudManager: {fileID: 2020355331}

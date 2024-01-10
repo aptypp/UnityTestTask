@@ -10,7 +10,7 @@ namespace TestTask.Units
     public class Player : MonoBehaviour, IDamageable
     {
         public event Action lostClosestEnemy;
-        public event Action<Enemie> findClosestEnemy;
+        public event Action<Enemy> findClosestEnemy;
 
         public Extensions.Observables.IObservable<int> health => _health;
 
@@ -30,11 +30,14 @@ namespace TestTask.Units
         [SerializeField]
         private float _rotationSpeed;
 
+        [SerializeField]
+        private ParticleSystem _highlightParticles;
+
         private bool _isDead;
         private float _lastAttackTime;
         private float _lastAttackCooldown;
         private float _targetMoveAnimationSpeed;
-        private Enemie _closestEnemy;
+        private Enemy _closestEnemy;
         private Vector3 _position;
         private Vector3 _moveDirection;
         private Quaternion _moveRotation;
@@ -98,12 +101,12 @@ namespace TestTask.Units
 
             return TrySuperAttackEnemy();
         }
-        
+
         public void IncreaseHealth(int value) => _health.value += value;
 
         private void FindEnemy()
         {
-            if (TryGetClosestEnemy(out Enemie enemy))
+            if (TryGetClosestEnemy(out Enemy enemy))
             {
                 float distanceToEnemy = Vector3.Distance(transform.position, enemy.transform.position);
 
@@ -125,15 +128,15 @@ namespace TestTask.Units
             lostClosestEnemy?.Invoke();
         }
 
-        private bool TryGetClosestEnemy(out Enemie enemy)
+        private bool TryGetClosestEnemy(out Enemy enemy)
         {
-            IReadOnlyList<Enemie> enemies = SceneManager.Instance.Enemies;
+            IReadOnlyList<Enemy> enemies = SceneManager.Instance.enemies;
 
-            Enemie closest = null;
+            Enemy closest = null;
 
             for (int i = 0; i < enemies.Count; i++)
             {
-                Enemie enemie = enemies[i];
+                Enemy enemie = enemies[i];
                 if (enemie == null) continue;
 
                 if (closest == null)
@@ -201,7 +204,7 @@ namespace TestTask.Units
         }
 
 
-        private void AttackEnemy(Enemie enemy, int damage)
+        private void AttackEnemy(Enemy enemy, int damage)
         {
             transform.transform.rotation =
                 Quaternion.LookRotation(enemy.transform.position - transform.position);
@@ -213,6 +216,7 @@ namespace TestTask.Units
         {
             _isDead = true;
             AnimatorController.SetTrigger(DieId);
+            Destroy(_highlightParticles);
 
             SceneManager.Instance.GameOver();
         }

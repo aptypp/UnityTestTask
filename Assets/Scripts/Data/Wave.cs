@@ -7,6 +7,7 @@ namespace TestTask.Data
     [CreateAssetMenu(fileName = "Wave", menuName = "Data/Waves"), Serializable]
     public class Wave : ScriptableObject
     {
-        public Enemie[] Characters;
+        [field: SerializeField]
+        public Enemy[] enemies { get; private set; }
     }
 }

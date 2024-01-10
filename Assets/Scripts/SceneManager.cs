@@ -1,7 +1,7 @@
 using System.Collections.Generic;
-using Game.Input;
 using TestTask.Data;
 using TestTask.Input;
+using TestTask.Interfaces;
 using TestTask.Ui;
 using TestTask.Units;
 using UnityEngine;
@@ -14,8 +14,9 @@ namespace TestTask
     {
         public static SceneManager Instance;
 
+        public List<Enemy> enemies { get; private set; }
+
         public Player Player;
-        public List<Enemie> Enemies;
         public GameObject Lose;
         public GameObject Win;
 
@@ -38,6 +39,8 @@ namespace TestTask
         private void Awake()
         {
             Instance = this;
+            enemies = new List<Enemy>();
+
             InitializePlayer();
             InitializeHud();
         }
@@ -52,13 +55,15 @@ namespace TestTask
 
         public void Reset() => UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 
-        public void AddEnemie(Enemie enemie) => Enemies.Add(enemie);
+        public void AddEnemie(Enemy enemie) => enemies.Add(enemie);
 
-        public void RemoveEnemie(Enemie enemie)
+        public void RemoveEnemie(Enemy enemie)
         {
-            Enemies.Remove(enemie);
+            enemies.Remove(enemie);
 
-            if (Enemies.Count > 0) return;
+            if (enemie is IExtraEnemiesSpawnable) return;
+
+            if (enemies.Count > 0) return;
 
             if (_currentWave >= Config.Waves.Length)
             {
@@ -97,11 +102,11 @@ namespace TestTask
         {
             Wave wave = Config.Waves[_currentWave];
 
-            for (int enemyIndex = 0; enemyIndex < wave.Characters.Length; enemyIndex++)
+            for (int enemyIndex = 0; enemyIndex < wave.enemies.Length; enemyIndex++)
             {
-                Enemie enemyPrefab = wave.Characters[enemyIndex];
+                Enemy enemyPrefab = wave.enemies[enemyIndex];
                 Vector3 pos = new(Random.Range(-10, 10), 0, Random.Range(-10, 10));
-                Enemie instance = Instantiate(enemyPrefab, pos, Quaternion.identity);
+                Enemy instance = Instantiate(enemyPrefab, pos, Quaternion.identity);
 
                 instance.Initialize(Player.IncreaseHealth);
             }
