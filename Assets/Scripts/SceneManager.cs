@@ -1,5 +1,9 @@
 using System.Collections.Generic;
+using Game.Input;
+using TestTask.Ui;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using PlayerInput = UnityEngine.InputSystem.PlayerInput;
 
 namespace TestTask
 {
@@ -13,57 +17,85 @@ namespace TestTask
         public GameObject Win;
 
         [SerializeField]
+        private HudManager _hudManager;
+
+        [SerializeField]
         private LevelConfig Config;
 
-        private int currWave;
+        [SerializeField]
+        private PlayerInput _playerInput;
+
+        [SerializeField]
+        private PlayerUiInput _playerUiInput;
+
+
+        private int _currentWave;
+
+        private const string _INPUT_ACTION_MOVE_NAME = "Move";
 
         private void Awake()
         {
             Instance = this;
+            InitializePlayer();
         }
 
-        public void Reset()
-        {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
-        }
+        private void Start() => SpawnWave();
 
-        private void Start()
-        {
-            SpawnWave();
-        }
+        public void Reset() => UnityEngine.SceneManagement.SceneManager.LoadScene(0);
 
-        public void AddEnemie(Enemie enemie)
-        {
-            Enemies.Add(enemie);
-        }
+        public void AddEnemie(Enemie enemie) => Enemies.Add(enemie);
 
         public void RemoveEnemie(Enemie enemie)
         {
             Enemies.Remove(enemie);
-            if (Enemies.Count == 0) SpawnWave();
-        }
 
-        public void GameOver()
-        {
-            Lose.SetActive(true);
-        }
+            if (Enemies.Count > 0) return;
 
-        private void SpawnWave()
-        {
-            if (currWave >= Config.Waves.Length)
+            if (_currentWave >= Config.Waves.Length)
             {
                 Win.SetActive(true);
                 return;
             }
 
-            Wave wave = Config.Waves[currWave];
+            SpawnWave();
+        }
+
+        public void GameOver() => Lose.SetActive(true);
+
+        private void InitializePlayer()
+        {
+            InputAction moveAction = _playerInput.actions.FindAction(_INPUT_ACTION_MOVE_NAME);
+
+            moveAction.performed += Player.SetMoveDirection;
+            moveAction.canceled += Player.SetMoveDirection;
+
+            Player.findClosestEnemy += _playerUiInput.OnFoundClosestEnemy;
+            Player.lostClosestEnemy += _playerUiInput.OnLostClosestEnemy;
+
+            _playerUiInput.attackButton.onClick += Player.AttackInput;
+            _playerUiInput.superAttackButton.SetOnClick(() =>
+            {
+                bool isAttacked = Player.SuperAttackInput();
+
+                if (!isAttacked) return;
+
+                _playerUiInput.superAttackButton.ToCooldownState(Player.SuperAtackCooldown,
+                    _playerUiInput.superAttackButton.ToInactiveState);
+            });
+        }
+
+        private void SpawnWave()
+        {
+            Wave wave = Config.Waves[_currentWave];
             foreach (GameObject character in wave.Characters)
             {
                 Vector3 pos = new(Random.Range(-10, 10), 0, Random.Range(-10, 10));
                 Instantiate(character, pos, Quaternion.identity);
             }
 
-            currWave++;
+            _currentWave++;
+
+            _hudManager.waveInfoText.text = $"Wave {_currentWave}/{Config.Waves.Length}";
         }
     }
 }
