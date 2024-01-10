@@ -1,17 +1,18 @@
 using System;
 using System.Collections.Generic;
-using Tools.Observables;
+using TestTask.Extensions.Observables;
+using TestTask.Interfaces;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-namespace TestTask
+namespace TestTask.Units
 {
     public class Player : MonoBehaviour, IDamageable
     {
         public event Action lostClosestEnemy;
         public event Action<Enemie> findClosestEnemy;
 
-        public Tools.Observables.IObservable<int> health => _health;
+        public Extensions.Observables.IObservable<int> health => _health;
 
         [field: SerializeField]
         public int startHealth;

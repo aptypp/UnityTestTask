@@ -1,6 +1,9 @@
 using System.Collections.Generic;
 using Game.Input;
+using TestTask.Data;
+using TestTask.Input;
 using TestTask.Ui;
+using TestTask.Units;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using PlayerInput = UnityEngine.InputSystem.PlayerInput;

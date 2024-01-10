@@ -1,8 +1,9 @@
 using System;
+using TestTask.Interfaces;
 using UnityEngine;
 using UnityEngine.AI;
 
-namespace TestTask
+namespace TestTask.Units
 {
     public class Enemie : MonoBehaviour, IDamageable
     {

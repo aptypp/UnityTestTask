@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Tools.Observables
+namespace TestTask.Extensions.Observables
 {
     public class Observable<T> : IObservable<T>
     {

@@ -1,4 +1,4 @@
-﻿namespace TestTask
+﻿namespace TestTask.Interfaces
 {
     public interface IDamageable
     {

@@ -1,9 +1,8 @@
-﻿using System;
-using TestTask;
-using TestTask.Ui;
+﻿using TestTask.Ui;
+using TestTask.Units;
 using UnityEngine;
 
-namespace Game.Input
+namespace TestTask.Input
 {
     public class PlayerUiInput : MonoBehaviour
     {
