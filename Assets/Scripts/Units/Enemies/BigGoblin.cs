@@ -5,8 +5,6 @@ namespace TestTask.Units.Enemies
 {
     public class BigGoblin : Enemy, IExtraEnemiesSpawnable
     {
-        public int spawnCount => _enemiesToSpawnAfterDeath.Length;
-
         [SerializeField]
         private Enemy[] _enemiesToSpawnAfterDeath;
 

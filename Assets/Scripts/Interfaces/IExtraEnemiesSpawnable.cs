@@ -2,6 +2,5 @@
 {
     public interface IExtraEnemiesSpawnable
     {
-        int spawnCount { get; }
     }
 }
