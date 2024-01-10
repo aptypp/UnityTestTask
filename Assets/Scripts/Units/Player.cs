@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using Tools.Observables;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -10,6 +11,11 @@ namespace TestTask
         public event Action lostClosestEnemy;
         public event Action<Enemie> findClosestEnemy;
 
+        public Tools.Observables.IObservable<int> health => _health;
+
+        [field: SerializeField]
+        public int startHealth;
+
         public int Damage;
         public int SuperDamage;
         public float AtackCooldown;
@@ -18,16 +24,12 @@ namespace TestTask
         public Animator AnimatorController;
 
         [SerializeField]
-        private float _startHealth;
-
-        [SerializeField]
         private float _moveSpeed;
 
         [SerializeField]
         private float _rotationSpeed;
 
         private bool _isDead;
-        private float _health;
         private float _lastAttackTime;
         private float _lastAttackCooldown;
         private float _targetMoveAnimationSpeed;
@@ -35,6 +37,7 @@ namespace TestTask
         private Vector3 _position;
         private Vector3 _moveDirection;
         private Quaternion _moveRotation;
+        private Observable<int> _health;
 
         private static readonly int AttackId = Animator.StringToHash("Attack");
         private static readonly int SuperAttackId = Animator.StringToHash("SuperAttack");
@@ -43,7 +46,7 @@ namespace TestTask
 
         private void Awake()
         {
-            _health = _startHealth;
+            _health = new Observable<int>(startHealth);
             _position = transform.position;
         }
 
@@ -81,9 +84,9 @@ namespace TestTask
         {
             if (_isDead) return;
 
-            _health -= damage;
+            _health.value -= damage;
 
-            if (_health > 0) return;
+            if (_health.value > 0) return;
 
             Die();
         }
@@ -94,6 +97,8 @@ namespace TestTask
 
             return TrySuperAttackEnemy();
         }
+        
+        public void IncreaseHealth(int value) => _health.value += value;
 
         private void FindEnemy()
         {

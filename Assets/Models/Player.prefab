@@ -45,13 +45,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d0d768a0d357334286e5a146ac21b9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  startHealth: 10
   Damage: 1
   SuperDamage: 2
   AtackCooldown: 1
   SuperAtackCooldown: 2
   AttackRange: 2
   AnimatorController: {fileID: 3406702794975183433}
-  _startHealth: 10
   _moveSpeed: 5
   _rotationSpeed: 5
 --- !u!1001 &3605857744278639608

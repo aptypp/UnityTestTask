@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -6,6 +7,7 @@ namespace TestTask
     public class Enemie : MonoBehaviour, IDamageable
     {
         public int Damage;
+        public int RestoreHealthCount;
         public float AtackSpeed;
         public float AttackRange = 2;
 
@@ -15,21 +17,20 @@ namespace TestTask
         [SerializeField]
         private int _startHealth;
 
-        private bool isDead;
         private int _health;
+        private bool isDead;
         private float lastAttackTime;
+        private Action<int> _onDead;
 
         private static readonly int AttackId = Animator.StringToHash("Attack");
         private static readonly int SpeedId = Animator.StringToHash("Speed");
         private static readonly int DieId = Animator.StringToHash("Die");
 
-        private void Awake()
+        public void Initialize(Action<int> onDead)
         {
             _health = _startHealth;
-        }
-
-        private void Start()
-        {
+            _onDead = onDead;
+            
             SceneManager.Instance.AddEnemie(this);
             Agent.SetDestination(SceneManager.Instance.Player.transform.position);
         }
@@ -73,6 +74,7 @@ namespace TestTask
             isDead = true;
             AnimatorController.SetTrigger(DieId);
             Agent.isStopped = true;
+            _onDead(RestoreHealthCount);
         }
     }
 }

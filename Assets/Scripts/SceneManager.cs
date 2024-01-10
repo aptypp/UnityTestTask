@@ -28,7 +28,6 @@ namespace TestTask
         [SerializeField]
         private PlayerUiInput _playerUiInput;
 
-
         private int _currentWave;
 
         private const string _INPUT_ACTION_MOVE_NAME = "Move";
@@ -37,6 +36,13 @@ namespace TestTask
         {
             Instance = this;
             InitializePlayer();
+            InitializeHud();
+        }
+
+        private void InitializeHud()
+        {
+            _hudManager.Initialize();
+            _hudManager.playerHealthModel.Initialize(_hudManager.playerHealthText, Player);
         }
 
         private void Start() => SpawnWave();
@@ -87,10 +93,14 @@ namespace TestTask
         private void SpawnWave()
         {
             Wave wave = Config.Waves[_currentWave];
-            foreach (GameObject character in wave.Characters)
+
+            for (int enemyIndex = 0; enemyIndex < wave.Characters.Length; enemyIndex++)
             {
+                Enemie enemyPrefab = wave.Characters[enemyIndex];
                 Vector3 pos = new(Random.Range(-10, 10), 0, Random.Range(-10, 10));
-                Instantiate(character, pos, Quaternion.identity);
+                Enemie instance = Instantiate(enemyPrefab, pos, Quaternion.identity);
+
+                instance.Initialize(Player.IncreaseHealth);
             }
 
             _currentWave++;

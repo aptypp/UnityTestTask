@@ -100,6 +100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Damage: 1
+  RestoreHealthCount: 1
   AtackSpeed: 1
   AttackRange: 2
   AnimatorController: {fileID: 7475179364339281051}
