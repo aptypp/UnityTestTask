@@ -46,15 +46,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7d0d768a0d357334286e5a146ac21b9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startHealth: 15
+  startHealth: 25
   Damage: 1
   SuperDamage: 2
   AtackCooldown: 1
   SuperAtackCooldown: 2
   AttackRange: 2
   AnimatorController: {fileID: 3406702794975183433}
-  _moveSpeed: 5
+  _moveSpeed: 4.5
   _rotationSpeed: 5
+  _worldBoundaries: {x: 25, y: 25}
   _highlightParticles: {fileID: 4008838102550419542}
 --- !u!1001 &1848007013608498416
 PrefabInstance:

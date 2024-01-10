@@ -29,6 +29,9 @@ namespace TestTask.Units
 
         [SerializeField]
         private float _rotationSpeed;
+        
+        [SerializeField]
+        private Vector2 _worldBoundaries;
 
         [SerializeField]
         private ParticleSystem _highlightParticles;
@@ -159,6 +162,9 @@ namespace TestTask.Units
         private void TryMove()
         {
             _position += _moveDirection * _moveSpeed * Time.deltaTime;
+
+            _position.x = Mathf.Clamp(_position.x, -_worldBoundaries.x, _worldBoundaries.x);
+            _position.z = Mathf.Clamp(_position.z, -_worldBoundaries.y, _worldBoundaries.y);
 
             if (transform.position != _position)
             {
